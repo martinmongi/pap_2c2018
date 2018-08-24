@@ -12,6 +12,35 @@
 
 Martin Mongi Badia;
 
+/*
+Queremos resolver el problema de https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1202
+
+Para esto, vemos que el problema se puede modelar como un 0,1-knapsack. Funciona 
+de la siguiente manera:
+    - Tomamos c_1, ... c_n autos
+    - Chequeamos si hay una particion en C_a y C_b tal que la suma de ambas sea 
+      menor al largo del bote
+    - Si la hay, terminamos. Si no, tomamos c_1, ... c_(n-1)
+
+Para ver si es posible encontrar esta particion, nos fijamos cual es el
+subconjunto C_a con suma máxima, pero menor al largo del bote . Si, además, la
+suma de C_b también es menor, hemos encontrado la partición. Si no, no es
+posible con esta cantidad de autos.
+
+Para encontrar esta partición, usamos una técnica bottom up, aprovechando la
+integralidad de los pesos. Creamos una matriz K en R^(cant_autos+1 x largo + 1)
+donde K[i][j] representa la suma máxima <= j que se puede conseguir usando 
+algunos de los autos de C_1 ... C_i. De esta forma, podemos aprovechar la 
+suboptimalidad del problema y ahorrarnos calculos innecesarios.
+
+Analicemos la complejidad:
+    - Hay un ciclo que va removiendo autos, de acuerdo a si encuentra una 
+      solución o no. Esto se puede ejecutar n veces a lo sumo.
+    - Dentro de el ciclo anterior, se recorre una sola vez la matriz de tamaño
+      n x w, haciendo computos O(1) para cada posición de ella.
+Por lo tanto, la complejidad del programa es O(n^2 x w)
+*/
+
 int main()
 {
     int t;
