@@ -15,10 +15,8 @@ Martin Mongi Badia;
 int main()
 {
     int t;
-
     cin >> t;
-
-    for (int case_n = 0; case_n < t; ++case_n)
+    while(t--)
     {
         int boat_length;
         cin >> boat_length;
@@ -86,8 +84,7 @@ int main()
         cout << car_lengths.size() << '\n';
         for (auto b : sol)
             cout << (b ? "starboard" : "port") << '\n';
-        cout << '\n';
+        if(t) cout << '\n';
     }
     return 0;
 }
-// Quiero dejar de vivir, no tira mas TLE, pero tira WA
