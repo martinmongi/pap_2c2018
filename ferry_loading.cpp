@@ -85,5 +85,6 @@ int main()
 
 // Nueva idea:
 // Cada auto que agarro, genero las 2 posibilidades (mandarlo a estribor y a babor)
-// Me quedo con todas las posibilidades que se pueden ir haciendo, de esta forma
-// no hago los mismos calculos a lo pavote varias veces
+// Me quedo con todas las posibilidades que se pueden ir haciendo (puedo tirar casi la mitad,
+// solo guardando las de estribor >= babor), de esta forma no hago los mismos calculos
+// a lo pavote varias veces
