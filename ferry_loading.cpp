@@ -23,7 +23,7 @@ de la siguiente manera:
     - Si la hay, terminamos. Si no, tomamos c_1, ... c_(n-1)
 
 Para ver si es posible encontrar esta particion, nos fijamos cual es el
-subconjunto C_a con suma máxima, pero menor al largo del bote . Si, además, la
+subconjunto C_a con suma máxima, pero menor al largo del bote. Si, además, la
 suma de C_b también es menor, hemos encontrado la partición. Si no, no es
 posible con esta cantidad de autos.
 
@@ -34,11 +34,9 @@ algunos de los autos de C_1 ... C_i. De esta forma, podemos aprovechar la
 suboptimalidad del problema y ahorrarnos calculos innecesarios.
 
 Analicemos la complejidad:
-    - Hay un ciclo que va removiendo autos, de acuerdo a si encuentra una 
-      solución o no. Esto se puede ejecutar n veces a lo sumo.
-    - Dentro de el ciclo anterior, se recorre una sola vez la matriz de tamaño
+    - El paso algorítmico de peor complejidad es recorrer la matriz de tamaño
       n x w, haciendo computos O(1) para cada posición de ella.
-Por lo tanto, la complejidad del programa es O(n^2 x w)
+Por lo tanto, la complejidad del programa es O(n x w)
 */
 
 int main()
@@ -47,47 +45,41 @@ int main()
     cin >> t;
     while(t--)
     {
-        int boat_length;
+        int boat_length, car_length;
         cin >> boat_length;
         boat_length *= 100;
         vector<int> car_lengths;
         vector<bool> sol;
 
-        while (true)
-        {
-            int car_length;
-            cin >> car_length;
-            if (car_length == 0)
-                break;
+        while (cin >> car_length, car_length != 0)
             car_lengths.push_back(car_length);
-        }
         vector<vector<int>> k(car_lengths.size() + 1, vector<int>(boat_length + 1));
         vector<vector<bool>> u(car_lengths.size() + 1, vector<bool>(boat_length + 1));
 
-        while (true)
+        for (int i = 0; i <= car_lengths.size(); ++i)
         {
-            for (int i = 0; i <= car_lengths.size(); ++i)
+            for (int w = 0; w <= boat_length; ++w)
             {
-                for (int w = 0; w <= boat_length; ++w)
+                if (w == 0 || i == 0)
                 {
-                    if (w == 0 || i == 0)
-                    {
-                        k[i][w] = 0;
-                    }
-                    else if (car_lengths[i - 1] <= w)
-                    {
-                        int using_i = k[i - 1][w - car_lengths[i - 1]] + car_lengths[i - 1];
-                        int not_using_i = k[i - 1][w];
-                        k[i][w] = max(using_i, not_using_i);
-                        u[i][w] = using_i > not_using_i;
-                    }
-                    else
-                    {
-                        k[i][w] = k[i - 1][w];
-                    }
+                    k[i][w] = 0;
+                }
+                else if (car_lengths[i - 1] <= w)
+                {
+                    int using_i = k[i - 1][w - car_lengths[i - 1]] + car_lengths[i - 1];
+                    int not_using_i = k[i - 1][w];
+                    k[i][w] = max(using_i, not_using_i);
+                    u[i][w] = using_i > not_using_i;
+                }
+                else
+                {
+                    k[i][w] = k[i - 1][w];
                 }
             }
+        }
 
+        while (true)
+        {
             int w = boat_length;
             sol = vector<bool>(car_lengths.size(), false);
             for (int i = car_lengths.size(); i > 0; --i)
