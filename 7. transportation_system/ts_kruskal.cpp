@@ -2,7 +2,28 @@
 Queremos resolver el problema de https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=2169
 
 Queremos unir todas las ciudades dadas con rutas o ferrocarriles construyendo la
-menor cantidad de ambos.
+menor cantidad de ambos. Primero, supongamos que la diferenciación entre rutas y
+ferrocarriles no existe. Entonces, necesitamos que entre cada par de ciudades de
+país hay al menos un país. Dado que queremos ahorrar, una forma de unir todas
+las ciudades, sería pedir sólo un camino entre cada par. Si en un grafo, entre
+cada par de vértices hay exactamente un camino, el grafo es un árbol. Podemos
+generar este árbol con algoritmos como Prim o Kruskal. Usamos este último.
+
+Dado el MST (minimum spanning tree), tenemos que decidir que ejes de este vamos
+a construir como rutas y cuales como ferrocarriles. Esto lo hacemos según el
+límite dado para la construcción de rutas. Luego, contamos la cantidad de
+estados diferentes del país (si hay m ferrocarriles, hay m + 1 estados), y 
+devolvemos el resultado.
+
+Análisis de complejidad:
+
+- Generación de grafo y pesos de ejes       O(n^2)
+- Ordenamiento de ejes                      O(n^2 * log n)
+- Creación del árbol                        O(n^2 * log n) (es posible acotar mejor)
+- División entre ruta y ferrocarril         O(n)
+
+Vemos que la complejidad total del algoritmo es O(n^2 * log n)
+
 */
 
 #define Martin using
