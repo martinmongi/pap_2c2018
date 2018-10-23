@@ -9,7 +9,8 @@
         "xutility": "cpp",
         "algorithm": "cpp",
         "limits": "cpp",
-        "xlocale": "cpp"
+        "xlocale": "cpp",
+        "utility": "cpp"
     },
     "python.jediEnabled": false
 }
