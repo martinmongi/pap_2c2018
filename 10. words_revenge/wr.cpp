@@ -1,6 +1,34 @@
 /*
 Queremos resolver el problema de https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=2397
 
+Si tuvieramos todas las palabras desde el incio, podemos usar el algoritmo Aho-
+Corasick para resolver en tiempo lineal en la cantidad de caracteres combinados
+de las palabras y los párrafos. Como no es el caso, podemos usar el siguiente
+algoritmo (q queries, n caracteres en palabras, m caracteres en parrafos):
+
+Para cada query de largo k: desencriptar la query (O(k))
+
+  - Si es una palabra nueva, tengo que generar de nuevo el AHT      O(n + k)
+  - Si es un párrafo a evauluar, recorrer el trie                   O(k)
+
+Este algoritmo da una complejidad final de O(n^2 + m).
+
+Podemos mejorar esto, manteniendo dos tries (grande y chico). El grande, lo
+regeneramos cada cierta cantidad de queries (q^0.5). El chico, lo regeneramos
+cada vez que aprendemos una palabra nueva y lo vaciamos cuando regeneramos el
+grande. Entonces tenemos:
+
+  - Si es un párrafo a evaluar, matcheo en los dos tries            O(k)
+  - Si es una palabra nueva, la agrego al trie chico                O(n^0.5 + k)
+
+  - En 1/q^.5 de las queries, rearmo el trie grande                 O(n)
+
+Esto da:
+  - Rearmar el trie grande O(n^0.5) veces                           O(n^1.5)
+  - Agregar al trie chico O(n) palabras                             O(n^1.5)
+
+Luego, la complejidad del algoritmo está acotada por O(n^1.5 + m)
+
 */
 #define Martin using
 #define Mongi namespace
@@ -24,7 +52,7 @@ typedef struct node
     int next[2];
     int fail, dict_fail;
     string s;
-} Node;
+} Node; 
 
 class AhoCorasickTrie
 {
@@ -204,7 +232,7 @@ void AhoCorasickTrie::Print()
          << '\n';
 }
 
-string shift(const string &s, int l)
+inline string shift(const string &s, int l)
 {
     int n = s.size();
     l = l % n;
