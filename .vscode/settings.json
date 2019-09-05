@@ -10,7 +10,9 @@
         "algorithm": "cpp",
         "limits": "cpp",
         "xlocale": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "unordered_map": "cpp"
     },
-    "python.jediEnabled": false
+    "python.jediEnabled": false,
+    "python.linting.pylintEnabled": true
 }
